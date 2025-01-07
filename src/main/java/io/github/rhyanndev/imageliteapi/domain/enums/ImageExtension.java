@@ -8,7 +8,8 @@ public enum ImageExtension {
 
     PNG(MediaType.IMAGE_PNG),
     GIF(MediaType.IMAGE_GIF),
-    JPEG(MediaType.IMAGE_JPEG);
+    JPEG(MediaType.IMAGE_JPEG),
+    WEBP(MediaType.valueOf("image/webp"));
 
     private MediaType mediaType;
 
