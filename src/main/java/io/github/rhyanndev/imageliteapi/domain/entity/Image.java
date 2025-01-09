@@ -46,4 +46,8 @@ public class Image {
     @Lob
     private byte[] file; // represents the image the user selected to upload
 
+    public String getFileName(){
+        return getName().concat(".").concat(getExtension().name());
+    }
+
 }
