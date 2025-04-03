@@ -14,7 +14,7 @@ public class SecretyKeyGenerator {
             if(key == null){
                 key = Jwts.SIG.HS256.key().build();
             }
-
+            return key;
         }
 
 }
