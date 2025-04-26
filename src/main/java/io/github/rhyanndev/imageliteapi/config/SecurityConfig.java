@@ -41,6 +41,7 @@ public class SecurityConfig {
 
                     authorizationManagerRequestMatcherRegistry.requestMatchers("/v1/users/**").permitAll();
                     authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.GET, "/v1/images/**").permitAll();
+                    authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE, "/v1/images/**").authenticated();
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -49,7 +50,11 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:3000"); // libera o frontend
+        config.addAllowedMethod("*"); // libera todos os métodos
+        config.addAllowedHeader("*"); // libera todos os headers
+        config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource cors = new UrlBasedCorsConfigurationSource();
         cors.registerCorsConfiguration("/**", config);
 
