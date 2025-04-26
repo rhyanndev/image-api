@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/v1/images")
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
 public class ImagesController {
 
     private final ImageService service;
@@ -76,6 +75,12 @@ public class ImagesController {
         }).collect(Collectors.toList());
 
         return ResponseEntity.ok(images);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteImages(@RequestBody List<String> ids) {
+        service.deleteAllByIds(ids);
+        return ResponseEntity.noContent().build();
     }
 
     private URI buildImageURL(Image image) {

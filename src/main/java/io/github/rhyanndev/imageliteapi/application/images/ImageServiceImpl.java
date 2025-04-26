@@ -4,11 +4,14 @@ import io.github.rhyanndev.imageliteapi.domain.entity.Image;
 import io.github.rhyanndev.imageliteapi.domain.enums.ImageExtension;
 import io.github.rhyanndev.imageliteapi.domain.service.ImageService;
 import io.github.rhyanndev.imageliteapi.infra.repository.ImageRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +43,14 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<Image> search(ImageExtension extension, String query) {
         return repository.findByExtensionAndNameOrTagsLike(extension, query);
+    }
+
+    @Override
+    public void deleteAllByIds(List<String> ids) {
+        List<Image> images = repository.findAllById(ids);
+        if (images.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma imagem encontrada");
+        }
+        repository.deleteAll(images);
     }
 }

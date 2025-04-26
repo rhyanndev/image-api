@@ -15,4 +15,6 @@ public interface ImageService {
 
     List<Image> search(ImageExtension extension, String query);
 
+    void deleteAllByIds(List<String> ids);
+
 }
